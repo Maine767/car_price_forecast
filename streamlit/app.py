@@ -5,6 +5,7 @@ import pickle
 import re
 import seaborn as sns
 import matplotlib.pyplot as plt
+import os
 
 st.set_page_config(page_title="Car Price Pro", page_icon="🚗", layout="wide")
 st.title("🚗 Прогнозирование стоимости автомобиля")
@@ -12,7 +13,10 @@ st.title("🚗 Прогнозирование стоимости автомоб�
 @st.cache_resource
 def load_pipeline():
     try:
-        with open('car_price_pipeline.pkl', 'rb') as f:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(base_dir, 'car_price_pipeline.pkl')
+
+        with open(file_path, 'rb') as f:
             pipeline = pickle.load(f)
         return pipeline['model'], pipeline['scaler'], pipeline['model_columns']
     except FileNotFoundError:
